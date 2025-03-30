@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Пошук смартфонів</title>
+</head>
+<body>
+<h1>Курс долара:</h1>
+<p th:text="${currencyRate.buy}"></p>
+
+<h1>Пошук смартфонів</h1>
+<form action="/search" method="get">
+    <input type="text" name="query" placeholder="Введіть запит">
+    <button type="submit">Пошук</button>
+</form>
+
+<table th:if="${smartphones != null}">
+    <thead>
+    <tr>
+        <th>Назва</th>
+        <th>Ціна</th>
+        <th>Посилання</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="smartphone : ${smartphones}">
+        <td th:text="${smartphone.name}"></td>
+        <td th:text="${smartphone.price}"></td>
+        <td><a th:href="${smartphone.link}" th:text="${smartphone.link}"></a></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/export">Експорт в Excel</a>
+</body>
+</html>
