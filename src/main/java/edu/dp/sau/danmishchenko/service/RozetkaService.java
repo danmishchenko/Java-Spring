@@ -5,15 +5,20 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.jsoup.HttpStatusException;
+import java.net.SocketTimeoutException;
 
 @Service
 public class RozetkaService {
 
     private static final String ROZETKA_URL = "https://rozetka.com.ua/ua/";
+    private final Logger logger = LoggerFactory.getLogger(RozetkaService.class);
 
     public List<Smartphone> searchSmartphones(String query) {
         try {
@@ -29,8 +34,17 @@ public class RozetkaService {
                 }
             }
             return smartphones;
+        } catch (HttpStatusException e) {
+            logger.error("HTTP помилка при парсингу Rozetka: " + e.getStatusCode() + " " + e.getMessage());
+            return List.of();
+        } catch (SocketTimeoutException e) {
+            logger.error("Таймаут з'єднання при парсингу Rozetka: " + e.getMessage());
+            return List.of();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Помилка вводу/виводу при парсингу Rozetka: " + e.getMessage());
+            return List.of();
+        } catch (Exception e) {
+            logger.error("Неочікувана помилка при парсингу Rozetka: " + e.getMessage());
             return List.of();
         }
     }
@@ -49,8 +63,17 @@ public class RozetkaService {
                 }
             }
             return smartphones;
+        } catch (HttpStatusException e) {
+            logger.error("HTTP помилка при парсингу Rozetka: " + e.getStatusCode() + " " + e.getMessage());
+            return List.of();
+        } catch (SocketTimeoutException e) {
+            logger.error("Таймаут з'єднання при парсингу Rozetka: " + e.getMessage());
+            return List.of();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Помилка вводу/виводу при парсингу Rozetka: " + e.getMessage());
+            return List.of();
+        } catch (Exception e) {
+            logger.error("Неочікувана помилка при парсингу Rozetka: " + e.getMessage());
             return List.of();
         }
     }

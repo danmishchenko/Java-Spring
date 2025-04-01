@@ -2,34 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Пошук смартфонів</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Курс долара:</h1>
-<p th:text="${currencyRate.buy}"></p>
+<div class="container mt-5">
+    <div class="jumbotron">
+        <h1 class="display-4">Курс долара:</h1>
+        <p class="lead" th:text="${currencyRate.buy}"></p>
+    </div>
 
-<h1>Пошук смартфонів</h1>
-<form action="/search" method="get">
-    <input type="text" name="query" placeholder="Введіть запит">
-    <button type="submit">Пошук</button>
-</form>
+    <h1 class="mb-4">Пошук смартфонів</h1>
+    <form action="/search" method="get" class="form-inline mb-4">
+        <input type="text" name="query" placeholder="Введіть запит" class="form-control mr-2">
+        <button type="submit" class="btn btn-primary">Пошук</button>
+    </form>
 
-<table th:if="${smartphones != null}">
-    <thead>
-    <tr>
-        <th>Назва</th>
-        <th>Ціна</th>
-        <th>Посилання</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="smartphone : ${smartphones}">
-        <td th:text="${smartphone.name}"></td>
-        <td th:text="${smartphone.price}"></td>
-        <td><a th:href="${smartphone.link}" th:text="${smartphone.link}"></a></td>
-    </tr>
-    </tbody>
-</table>
+    <div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
-<a href="/export">Експорт в Excel</a>
+    <table th:if="${smartphones != null and not smartphones.isEmpty()}" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Ціна</th>
+            <th>Посилання</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="smartphone : ${smartphones}">
+            <td th:text="${smartphone.name}"></td>
+            <td th:text="${smartphone.price}"></td>
+            <td><a th:href="${smartphone.link}" th:text="${smartphone.link}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/export" class="btn btn-success">Експорт в Excel</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

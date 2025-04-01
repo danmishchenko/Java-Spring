@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import jakarta.servlet.http.HttpServletResponse; // Correct import
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,6 +30,9 @@ public class SmartphoneController {
     @GetMapping("/search")
     public String search(@RequestParam String query, Model model) {
         List<Smartphone> smartphones = rozetkaService.searchSmartphones(query);
+        if (smartphones.isEmpty()) {
+            model.addAttribute("errorMessage", "Смартфони не знайдені.");
+        }
         model.addAttribute("smartphones", smartphones);
         return "index";
     }
